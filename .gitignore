@@ -1,0 +1,42 @@
+# ========== IDEA专有文件 ==========
+.idea/
+*.iml
+*.ipr
+*.iws
+*.ids
+*.orig
+modules.xml
+workspace.xml
+nav.map
+dataSources/
+dataSources.local.xml
+dynamic.xml
+
+# ========= Maven构建输出 ==========
+**/target/
+**/*.jar
+**/*.war
+
+# ========== Node相关 ==========
+**/node_modules/
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+
+# ========== Vue构建 ==========
+**/dist/
+**/.env.local
+**/.env.*.local
+
+# ========= 通用忽略项 ==========
+*.log
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+ehthumbs*.db
+**/logs/
+
+# ========= 特殊保留项 ==========
+!springboot/mvnw         # 保留Maven Wrapper
+!springboot/.mvn/        # 保留Maven配置

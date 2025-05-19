@@ -1,0 +1,20 @@
+package com.example.mapper;
+
+import com.example.entity.Admin;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
+
+public interface AdminMapper {
+    List<Admin> selectAll(String name);
+
+    void insert(Admin admin);
+
+    @Select("select * from `admin` where username = #{username}")
+    Admin selectByUsername(String username);
+
+
+    void updateById(Admin admin);
+
+    void deleteById(Integer id);
+}
