@@ -6,10 +6,13 @@ const router = createRouter({
     {path: '/',redirect:'/manager/home',},
     {path: '/manager',component: () => import('../views/Manager.vue'),
       children: [
-        {path: 'home',component: () => import('../views/Home.vue')},
-        {path: 'admin',component: () => import('../views/Admin.vue')},
+        {path: 'home', meta:{name:'主页'}, component: () => import('../views/Home.vue')},
+        {path: 'admin', meta:{name:'管理员信息'}, component: () => import('../views/Admin.vue')},
+        {path: 'user', meta:{name:'用户信息'}, component: () => import('../views/User.vue')},
       ]
     },
+    {path: '/login',component: () => import('../views/Login.vue'),},
+    {path: '/register',component: () => import('../views/Register.vue'),},
     {path: '/notFound',component: () => import('../views/404.vue'),},
     {path: '/:pathMatch(.*)*',redirect: '/notFound',}
   ],

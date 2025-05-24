@@ -5,8 +5,8 @@ import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import com.example.common.Result;
-import com.example.entity.Admin;
-import com.example.service.AdminService;
+import com.example.entity.User;
+import com.example.service.UserService;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import jakarta.servlet.ServletOutputStream;
@@ -14,65 +14,63 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin")
-public class AdminController {
+@RequestMapping("/user")
+public class UserController {
     @Resource
-    AdminService adminService;
+    UserService userService;
 
     @PostMapping("/add")
-    public Result add(@RequestBody Admin admin){
-        adminService.add(admin);
+    public Result add(@RequestBody User user){
+        userService.add(user);
         return Result.success();
     }
 
     @PutMapping("/update")
-    public Result update(@RequestBody Admin admin){
-        adminService.update(admin);
+    public Result update(@RequestBody User user){
+        userService.update(user);
         return Result.success();
     }
 
     @DeleteMapping("/delete/{id}")
     public Result delete(@PathVariable Integer id){
-        adminService.deleteById(id);
+        userService.deleteById(id);
         return Result.success();
     }
 
     @DeleteMapping("/deleteBatch")
-    public Result deleteBatch(@RequestBody List<Admin> list){
-        adminService.deleteBatch(list);
+    public Result deleteBatch(@RequestBody List<User> list){
+        userService.deleteBatch(list);
         return Result.success();
     }
 
     @GetMapping("/selectAll")
-    public Result selectAll(Admin admin){
-        List<Admin> adminList = adminService.selectAll(admin);
-        return Result.success(adminList);
+    public Result selectAll(User user){
+        List<User> userList = userService.selectAll(user);
+        return Result.success(userList);
     }
 
     @GetMapping("/selectPage")
     public Result selectPage(@RequestParam(defaultValue = "1") Integer pageNum,
                              @RequestParam(defaultValue = "10") Integer pageSize,
-                             Admin admin
+                             User user
                              ){
-        PageInfo<Admin> pageInfo = adminService.selectPage(pageNum,pageSize,admin);
+        PageInfo<User> pageInfo = userService.selectPage(pageNum,pageSize,user);
         return Result.success(pageInfo);
     }
 
     @GetMapping("/export")
-    public void exportData(Admin admin, HttpServletResponse response) throws Exception {
-        String ids = admin.getIds();
+    public void exportData(User user, HttpServletResponse response) throws Exception {
+        String ids = user.getIds();
         if(!"".equals(ids) && StrUtil.isNotBlank(ids)){
-            admin.setIdsArr(ids.split(","));
+            user.setIdsArr(ids.split(","));
         }
-        List<Admin> list = adminService.selectAll(admin);
+        List<User> list = userService.selectAll(user);
         ExcelWriter writer = ExcelUtil.getWriter(true);
         writer.addHeaderAlias("username","账号");
         writer.addHeaderAlias("name","名称");
@@ -97,9 +95,9 @@ public class AdminController {
         reader.addHeaderAlias("名称","name");
         reader.addHeaderAlias("电话","phone");
         reader.addHeaderAlias("邮箱","email");
-        List<Admin> list =  reader.readAll(Admin.class);
-        for(Admin admin:list){
-            adminService.add(admin);
+        List<User> list =  reader.readAll(User.class);
+        for(User user:list){
+            userService.add(user);
         }
         return Result.success();
     }

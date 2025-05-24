@@ -1,6 +1,6 @@
 package com.example.entity;
 
-public class Admin {
+public class User {
     private Integer id;
     private String username;
     private String password;
@@ -11,6 +11,10 @@ public class Admin {
     private String ids;
     private String[] idsArr;
 
+
+
+
+
     public String getRole() {
         return role;
     }
@@ -18,7 +22,6 @@ public class Admin {
     public void setRole(String role) {
         this.role = role;
     }
-
 
     public String[] getIdsArr() {
         return idsArr;

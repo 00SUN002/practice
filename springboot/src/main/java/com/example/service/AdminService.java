@@ -27,13 +27,13 @@ public class AdminService {
         }
     }
 
-    public List<Admin> selectAll(){
-        return adminMapper.selectAll(null);
+    public List<Admin> selectAll(Admin admin){
+        return adminMapper.selectAll(admin);
     }
 
-    public PageInfo<Admin> selectPage(Integer pageNum, Integer pageSize,String name) {
+    public PageInfo<Admin> selectPage(Integer pageNum, Integer pageSize,Admin admin) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Admin> list = adminMapper.selectAll(name);
+        List<Admin> list = adminMapper.selectAll(admin);
         return PageInfo.of(list);
     }
 
@@ -45,6 +45,7 @@ public class AdminService {
         if(StrUtil.isBlank(admin.getPassword())){
             admin.setPassword("123456");
         }
+        admin.setRole("ADMIN");
         adminMapper.insert(admin);
     }
 
@@ -60,5 +61,16 @@ public class AdminService {
         for (Admin admin : list) {
             deleteById(admin.getId());
         }
+    }
+
+    public Admin login(Admin admin) {
+        Admin dbAdmin = adminMapper.selectByUsername(admin.getUsername());
+        if(dbAdmin == null){
+            throw new CustomerException("账号不存在");
+        }
+        if(!dbAdmin.getPassword().equals(admin.getPassword())){
+            throw new CustomerException("账号或密码错误");
+        }
+        return dbAdmin;
     }
 }

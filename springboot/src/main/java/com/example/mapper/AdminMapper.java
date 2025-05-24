@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 public interface AdminMapper {
-    List<Admin> selectAll(String name);
+    List<Admin> selectAll(Admin admin);
 
     void insert(Admin admin);
 
