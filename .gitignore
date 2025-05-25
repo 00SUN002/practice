@@ -40,3 +40,5 @@ ehthumbs*.db
 # ========= 特殊保留项 ==========
 !springboot/mvnw         # 保留Maven Wrapper
 !springboot/.mvn/        # 保留Maven配置
+
+files/

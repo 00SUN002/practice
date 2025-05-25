@@ -2,9 +2,11 @@ package com.example.service;
 
 
 import cn.hutool.core.util.StrUtil;
+import com.example.entity.Account;
 import com.example.entity.Admin;
 import com.example.exception.CustomerException;
 import com.example.mapper.AdminMapper;
+import com.example.utils.TokenUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
@@ -17,15 +19,6 @@ public class AdminService {
 
     @Resource
     AdminMapper adminMapper;
-
-    public String admin(String name){
-        if("admin".equals(name)){
-            return "admin";
-        }
-        else{
-            throw new CustomerException("用户名错误");
-        }
-    }
 
     public List<Admin> selectAll(Admin admin){
         return adminMapper.selectAll(admin);
@@ -63,14 +56,20 @@ public class AdminService {
         }
     }
 
-    public Admin login(Admin admin) {
-        Admin dbAdmin = adminMapper.selectByUsername(admin.getUsername());
+    public Admin login(Account account) {
+        Admin dbAdmin = adminMapper.selectByUsername(account.getUsername());
         if(dbAdmin == null){
             throw new CustomerException("账号不存在");
         }
-        if(!dbAdmin.getPassword().equals(admin.getPassword())){
+        if(!dbAdmin.getPassword().equals(account.getPassword())){
             throw new CustomerException("账号或密码错误");
         }
+        String token = TokenUtils.createToken(dbAdmin.getId() + "-" + "ADMIN",dbAdmin.getPassword());
+        dbAdmin.setToken(token);
         return dbAdmin;
+    }
+
+    public Admin selectById(String id) {
+        return adminMapper.selectById(id);
     }
 }

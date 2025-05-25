@@ -79,7 +79,7 @@ public class UserController {
         writer.setOnlyAlias(true);
         writer.write(list);
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
-        String filename = URLEncoder.encode("管理员信息", StandardCharsets.UTF_8);
+        String filename = URLEncoder.encode("用户信息", StandardCharsets.UTF_8);
         response.setHeader("Content-Disposition", "attachment;filename=" + filename + ".xlsx");
         ServletOutputStream out = response.getOutputStream();
         writer.flush(out);

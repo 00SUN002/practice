@@ -11,8 +11,8 @@
       <el-button type="info" @click="exportData">批量导出</el-button>
       <el-upload
           style="display: inline-flex; margin-left: 10px"
-          action="http://localhost:8080/user/import"
           :show-file-list="false"
+          :http-request="importData"
           :on-success="handleImportSuccess"
       >
         <el-button type="success">批量导入</el-button>
@@ -23,6 +23,17 @@
       <el-table :data="data.tableData" style="width: 100%" @selection-change="handleSelectChange"
                 :header-cell-style="{ color: '#333',backgroundColor: '#eaf4ff' }">
         <el-table-column type="selection" width="55" />
+        <el-table-column label="头像" width="100">
+          <template #default="scope">
+            <el-image
+                v-if="scope.row.avatar"
+                :src="scope.row.avatar"
+                :preview-src-list="[scope.row.avatar]"
+                :preview-teleported="true"
+                style="width: 40px; height: 40px; border-radius: 50%; display: block"
+            />
+          </template>
+        </el-table-column>
         <el-table-column prop="username" label="账号" />
         <el-table-column prop="name" label="名称" />
         <el-table-column prop="phone" label="电话" />
@@ -63,6 +74,16 @@
         <el-form-item prop="email" label="邮箱">
           <el-input v-model="data.form.email" autocomplete="off" placeholder="请输入邮箱"/>
         </el-form-item>
+        <el-form-item prop="avatar" label="头像">
+          <el-upload
+              action="http://localhost:8080/files/upload"
+              :headers="{ token:data.user.token }"
+              :on-success="handleAvatarSuccess"
+              list-type="picture"
+          >
+            <el-button type="primary">上传头像</el-button>
+          </el-upload>
+        </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -82,6 +103,8 @@ import request from "@/utils/request.js";
 import {ElMessage, ElMessageBox} from "element-plus";
 
 const data = reactive({
+  user: JSON.parse(localStorage.getItem("user") || '{}'),
+  username: null,
   name: null,
   pageNum: 1,
   pageSize: 5,
@@ -224,7 +247,24 @@ const exportData = () => {
   let url = `http://localhost:8080/user/export?`
       + `name=${data.name === null ? '' : data.name}`
       + `&ids=${idsStr}`
+      + `&token=${data.user.token}`
   window.open(url)
+}
+
+const importData = async(params) => {
+  const formData = new FormData();
+  formData.append("file", params.file);
+  try{
+    const res = await request.post('/user/import',formData,{
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+    params.onSuccess(res);
+  }
+  catch (err) {
+    params.onError(err);
+  }
 }
 
 const handleImportSuccess = (res) => {
@@ -235,6 +275,10 @@ const handleImportSuccess = (res) => {
   else{
     ElMessage.error(res.msg)
   }
+}
+
+const handleAvatarSuccess = (res) => {
+  data.form.avatar = res.data
 }
 
 </script>

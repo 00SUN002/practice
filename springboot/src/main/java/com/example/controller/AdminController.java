@@ -14,9 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -90,7 +88,7 @@ public class AdminController {
     }
 
     @PostMapping("/import")
-    public Result importData(MultipartFile file) throws Exception {
+    public Result importData(@RequestParam("file") MultipartFile file) throws Exception {
         InputStream inputStream = file.getInputStream();
         ExcelReader reader = ExcelUtil.getReader(inputStream);
         reader.addHeaderAlias("账号", "username");

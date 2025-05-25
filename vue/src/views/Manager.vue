@@ -9,8 +9,9 @@
       <div style="width: fit-content; padding-right: 20px; display: flex; align-items: center;  border-bottom: 1px solid #ddd">
         <el-dropdown>
           <div style="display: flex; align-items: center">
-            <img style="width: 40px; height: 40px; border-radius: 50%" src="@/assets/imgs/avatar.jpg" alt="">
-            <span style="margin-left: 5px">管理员</span>
+            <img v-if="data.user?.avatar" style="width: 40px; height: 40px; border-radius: 50%" :src="data.user?.avatar" />
+            <img v-else style="width: 40px; height: 40px; border-radius: 50%" src="@/assets/imgs/default_avatar.png" alt="">
+            <span style="margin-left: 5px">{{data.user?.name}}</span>
           </div>
           <template #dropdown>
             <el-dropdown-menu>
@@ -53,22 +54,20 @@
 
 <script setup>
 import router from "@/router/index.js";
+import { reactive } from "vue";
+
+const data = reactive({
+  user:JSON.parse(localStorage.getItem('user') || "")
+})
 
 const logout = () => {
   localStorage.removeItem('user');
   location.href = "/login";
 }
 
-let userStr = localStorage.getItem("user");
-if(userStr){
-  let user = JSON.parse(userStr);
-  if(!user.id){
-    location.href = "/login";
-  }
-}
-else{
-  location.href = "/login";
-}
+// if(!data.user?.id){
+//   location.href = "/login";
+// }
 </script>
 
 <style>

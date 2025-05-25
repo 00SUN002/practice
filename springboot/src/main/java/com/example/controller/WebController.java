@@ -1,7 +1,7 @@
 package com.example.controller;
 
 import com.example.common.Result;
-import com.example.entity.Admin;
+import com.example.entity.Account;
 import com.example.entity.User;
 import com.example.service.AdminService;
 import com.example.service.UserService;
@@ -20,9 +20,18 @@ public class WebController {
 
 
     @PostMapping("/login")
-    public Result login(@RequestBody Admin admin){
-        Admin dbAdmin = adminService.login(admin);
-        return Result.success(dbAdmin);
+    public Result login(@RequestBody Account account){
+        Account dbAccount = null;
+        if("ADMIN".equals(account.getRole())){
+            dbAccount = adminService.login(account);
+        }
+        else if("USER".equals(account.getRole())){
+            dbAccount = userService.login(account);
+        }
+        else{
+            throw new RuntimeException("非法请求");
+        }
+        return Result.success(dbAccount);
     }
 
     @PostMapping("/register")

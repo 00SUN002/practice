@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ElMessage } from "element-plus";
+import router from "@/router/index.js";
 
 const request = axios.create({
     baseURL: "http://localhost:8080",
@@ -7,7 +8,11 @@ const request = axios.create({
 })
 
 request.interceptors.request.use(config => {
-    config.headers['Content-Type'] = 'application/json;charset=utf-8';
+    if(!(config.data instanceof FormData)){
+        config.headers['Content-Type'] = 'application/json;charset=utf-8';
+    }
+    let user = JSON.parse(localStorage.getItem('user') || '{}')
+    config.headers['token'] = user.token
     return config
 }, error => {
     return Promise.reject(error)
@@ -19,7 +24,13 @@ request.interceptors.response.use(
         if(typeof res == "string"){
             res = res ? JSON.parse(res) : res
         }
-        return res;
+        if (res.code === '401'){
+            ElMessage.error(res.msg)
+            router.push('/login')
+        }
+        else{
+            return res
+        }
     },
     error => {
         if(error.response.status === 404){
