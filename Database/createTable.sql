@@ -25,3 +25,14 @@ CREATE TABLE `user`  (
     PRIMARY KEY (`id`),
     UNIQUE KEY `username_index` (`username`) COMMENT '账号'
 )ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户信息';
+
+# 创建系统公告表
+CREATE TABLE `notice` (
+                          `id` int NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                          `title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '公告标题',
+                          `content` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '公告内容',
+                          `time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '发布时间',
+                          PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统公告表';
+
+

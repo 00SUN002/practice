@@ -2,38 +2,21 @@ package com.example.entity;
 
 public class Account {
     private Integer id;
-    private String username;
-    private String password;
-    private String name;
-    private String phone;
-    private String email;
-    private String role;
-    private String avatar;
-
+    private String ids;
+    private String[] idsArr;
     private String token;
+    private String password;
+    private String newPassword;
+    private String new2Password;
+    private String role;
+    private String username;
 
-    public String getToken() {
-        return token;
+    public Integer getId() {
+        return id;
     }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -44,14 +27,6 @@ public class Account {
         this.username = username;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -60,27 +35,51 @@ public class Account {
         this.password = password;
     }
 
-    public String getName() {
-        return name;
+    public String getRole() {
+        return role;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRole(String role) {
+        this.role = role;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getNewPassword() {
+        return newPassword;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
     }
 
-    public String getEmail() {
-        return email;
+    public String getNew2Password() {
+        return new2Password;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setNew2Password(String new2Password) {
+        this.new2Password = new2Password;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String[] getIdsArr() {
+        return idsArr;
+    }
+
+    public void setIdsArr(String[] idsArr) {
+        this.idsArr = idsArr;
+    }
+
+    public String getIds() {
+        return ids;
+    }
+
+    public void setIds(String ids) {
+        this.ids = ids;
     }
 }

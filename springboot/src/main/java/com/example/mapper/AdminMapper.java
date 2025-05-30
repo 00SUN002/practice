@@ -16,6 +16,8 @@ public interface AdminMapper {
 
     void updateById(Admin admin);
 
+    void updatePasswordById(Admin admin);
+
     void deleteById(Integer id);
 
     @Select("select * from `admin` where id = #{id}")

@@ -39,4 +39,18 @@ public class WebController {
         userService.register(user);
         return Result.success();
     }
+
+    @PostMapping("/updatePassword")
+    public Result updatePassword(@RequestBody Account account){
+        if("ADMIN".equals(account.getRole())){
+            adminService.updatePassword(account);
+        }
+        else if("USER".equals(account.getRole())){
+            userService.updatePassword(account);
+        }
+        else{
+            throw new RuntimeException("非法请求");
+        }
+        return Result.success();
+    }
 }
